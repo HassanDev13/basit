@@ -36,7 +36,7 @@ export default function Welcome({
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-center justify-between mb-10">
                         <h1 className="text-2xl md:text-3xl font-bold text-right ">
-                            التقارير لهذا الشهر {currentMonth} / {currentYear} 
+                            التقارير لهذا الشهر  
                         </h1>
                         <Button
                             type="button"
