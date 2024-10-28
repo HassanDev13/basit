@@ -2,7 +2,7 @@ import { Link, Head, router, usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { LogOut, LogOutIcon } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export default function Welcome({
     auth,
@@ -15,7 +15,6 @@ export default function Welcome({
         value: string;
     };
 
-  
     const { reports , currentMonth , currentYear , currentDate } = usePage<{
         reports: Report[]; 
         currentMonth : number;
@@ -29,7 +28,7 @@ export default function Welcome({
         { name: "المصاريف", link: route("expenses.index") },
         { name: "المبيعات", link: route("sales.index") },
     ];
-    console.log(reports);   
+    
     return (
         <>
             <Head title="Welcome" />
@@ -37,11 +36,11 @@ export default function Welcome({
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-center justify-between mb-10">
                         <h1 className="text-2xl md:text-3xl font-bold text-right ">
-                         التقارير لهذا شهر  {currentMonth} / {currentYear} 
+                            التقارير لهذا الشهر {currentMonth} / {currentYear} 
                         </h1>
                         <Button
                             type="button"
-                            className="bg-yellow-400 hover:bg-yellow-500 text-black  rounded"
+                            className="bg-yellow-500 hover:bg-yellow-600 text-white rounded"
                             onClick={() => {
                                 router.post(route("logout"));
                             }}
@@ -53,12 +52,12 @@ export default function Welcome({
                         {reports.map((report, index) => (
                             <Card
                                 key={index}
-                                className="p-4 bg-yellow-100 text-right"
+                                className="p-4 bg-blue-100 text-right border border-blue-200 shadow-sm hover:shadow-md"
                             >
-                                <h2 className="text-sm font-semibold mb-2">
+                                <h2 className="text-sm font-semibold mb-2 text-blue-700">
                                     {report.title}
                                 </h2>
-                                <p className="text-lg font-bold">
+                                <p className="text-lg font-bold text-blue-800">
                                     {report.value}
                                 </p>
                             </Card>
@@ -70,8 +69,8 @@ export default function Welcome({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {operations.map((operation, index) => (
                             <Link key={index} href={operation.link}>
-                                <Card className="p-6 bg-blue-100 flex items-center justify-center hover:bg-yellow-400">
-                                    <h3 className="text-lg md:text-xl font-semibold">
+                                <Card className="p-6 bg-yellow-100 text-center border border-yellow-300 shadow-sm hover:bg-yellow-200">
+                                    <h3 className="text-lg md:text-xl font-semibold text-yellow-800">
                                         {operation.name}
                                     </h3>
                                 </Card>
