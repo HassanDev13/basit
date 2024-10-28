@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "allowJs": true,
+        "skipLibCheck": true,
         "module": "ESNext",
         "moduleResolution": "bundler",
         "jsx": "react-jsx",
