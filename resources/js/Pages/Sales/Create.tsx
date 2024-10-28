@@ -131,48 +131,12 @@ export default function CreateSale() {
                         </PopoverContent>
                     </Popover>
 
-                    {addProduct ? (
-                        <Button
-                            type="button"
-                            onClick={() => {
-                                setAddProduct(false);
-                                setData({ ...data, product_id: "" });
-                            }}
-                        >
-                            <Minus className="h-4 w-4" />
-                        </Button>
-                    ) : (
-                        <Button
-                            type="button"
-                            onClick={() => {
-                                setAddProduct(true);
-                                setData({ ...data, product_id: "" });
-                            }}
-                        >
-                            <Plus className="h-4 w-4" />
-                        </Button>
-                    )}
+                   
                 </div>
                 <p className="text-xs text-red-500">{errors.product_id}</p>
             </div>
 
-            {addProduct && (
-                <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                    <div className="flex flex-col space-y-2">
-                        <Label htmlFor="name" className="text-right">
-                            الاسم
-                        </Label>
-                        <Input
-                            id="name"
-                            value={data.name}
-                            error={errors.name}
-                            placeholder="اسم المنتج"
-                            onChange={handleChange}
-                            className="text-right w-full"
-                        />
-                    </div>
-                </div>
-            )}
+           
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col space-y-2">
