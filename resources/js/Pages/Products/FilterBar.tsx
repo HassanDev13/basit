@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { usePage, router } from "@inertiajs/react";
 import { usePrevious } from "react-use";
 import pickBy from "lodash/pickBy";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Undo2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 export default function FilterBar() {
@@ -97,10 +97,10 @@ export default function FilterBar() {
             </div>
             <button
                 onClick={reset}
-                className="ml-3 text-sm text-gray-600 hover:text-gray-700 focus:text-indigo-700 focus:outline-none"
+                className="ml-3 text-sm text-gray-600 hover:text-gray-700 focus:text-indigo-700 focus:outline-none hover:bg-yellow-400"
                 type="button"
             >
-                إعادة تعيين
+                <Undo2/>
             </button>
         </div>
     );

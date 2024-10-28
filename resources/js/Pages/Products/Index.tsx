@@ -27,8 +27,6 @@ import { DataTablePagination } from "@/components/datatable/datatable-pagination
 import FilterBar from "./FilterBar";
 import { useToast } from "@/hooks/use-toast";
 
-
-
 export default function Index() {
     const { products: initialProducts } = usePage<{
         products: PaginatedResponse<Product>;
@@ -36,19 +34,16 @@ export default function Index() {
     const { toast } = useToast();
     const { data, current_page, last_page, per_page } = initialProducts;
 
-
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [productToDelete, setProductToDelete] = useState<Product | null>(null);
-
-   
+    const [productToDelete, setProductToDelete] = useState<Product | null>(
+        null
+    );
 
     const handleDeleteConfirm = () => {
         if (productToDelete) {
-           
-            router.delete(route('products.destroy', productToDelete.id), {
+            router.delete(route("products.destroy", productToDelete.id), {
                 onFinish: () => {
                     toast({
-                       
                         title: "تم الحذف بنجاح",
                         description: "تم حذف المنتج بنجاح.",
                     });
@@ -72,9 +67,8 @@ export default function Index() {
 
                     <h1 className="text-2xl font-bold">المنتجات</h1>
                 </div>
-                <div className="flex justify-between mb-4 gap-4 items-center">
-                   
-                    <FilterBar/>
+                <div className="flex justify-between mb-4 gap-3 items-center">
+                    <FilterBar />
                     <Button
                         className="bg-yellow-400 hover:bg-yellow-500 text-black"
                         onClick={() => {
@@ -84,7 +78,7 @@ export default function Index() {
                         إضافة
                     </Button>
                 </div>
-                <Table className="">
+                <Table className="mb-4">
                     <TableHeader>
                         <TableRow>
                             <TableHead className="text-right">#</TableHead>
@@ -92,10 +86,10 @@ export default function Index() {
                                 اسم المنتج
                             </TableHead>
                             <TableHead className="text-right">السعر</TableHead>
-                            <TableHead className="text-right">
+                            <TableHead className="text-right hidden md:table-cell">
                                 التكلفة
                             </TableHead>
-                            <TableHead className="text-right">
+                            <TableHead className="text-right hidden md:table-cell">
                                 الكمية المتاحة
                             </TableHead>
                             <TableHead className="text-right">
@@ -104,42 +98,56 @@ export default function Index() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data.map((product) => (
-                            <TableRow key={product.id}>
-                                <TableCell>{product.id}</TableCell>
-                                <TableCell>{product.name}</TableCell>
-                                <TableCell>{product.price}</TableCell>
-                                <TableCell>{product.cost}</TableCell>
-                                <TableCell>{product.quantity}</TableCell>
-                                <TableCell>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="mr-2 hover:bg-yellow-400"
-                                        onClick={() => {
-                                            router.get(
-                                                route("products.edit", {
-                                                    id: product.id,
-                                                })
-                                            );
-                                        }}
-                                    >
-                                        <Edit className="h-4 w-4" />
-                                    </Button>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="hover:bg-yellow-400"
-                                        onClick={() => {
-                                            setProductToDelete(product);
-                                            setDeleteDialogOpen(true);
-                                        }}
-                                    >
-                                        <Trash className="h-4 w-4" />
-                                    </Button>
+                        {data.length > 0 ? (
+                            data.map((product) => (
+                                <TableRow key={product.id}>
+                                    <TableCell>{product.id}</TableCell>
+                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell>{product.price}</TableCell>
+                                    <TableCell className="hidden md:table-cell">
+                                        {product.cost}
+                                    </TableCell>
+                                    <TableCell className="hidden md:table-cell">
+                                        {product.quantity}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="mr-2 hover:bg-yellow-400"
+                                            onClick={() => {
+                                                router.get(
+                                                    route("products.edit", {
+                                                        id: product.id,
+                                                    })
+                                                );
+                                            }}
+                                        >
+                                            <Edit className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="hover:bg-yellow-400"
+                                            onClick={() => {
+                                                setProductToDelete(product);
+                                                setDeleteDialogOpen(true);
+                                            }}
+                                        >
+                                            <Trash className="h-4 w-4" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={4} className="text-center">
+                                    <div className="my-28">
+                                        لا توجد بيانات
+                                    </div>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )}
                     </TableBody>
                 </Table>
                 <DataTablePagination
