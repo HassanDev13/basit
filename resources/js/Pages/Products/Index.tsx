@@ -26,6 +26,7 @@ import { PaginatedResponse, Product } from "@/types";
 import { DataTablePagination } from "@/components/datatable/datatable-pagination";
 import FilterBar from "./FilterBar";
 import { useToast } from "@/hooks/use-toast";
+import NoData from "@/components/no-data";
 
 export default function Index() {
     const { products: initialProducts } = usePage<{
@@ -86,7 +87,7 @@ export default function Index() {
                                 اسم المنتج
                             </TableHead>
                             <TableHead className="text-right">السعر</TableHead>
-                            <TableHead className="text-right hidden md:table-cell">
+                            <TableHead className="text-right hidden md:table-cell ">
                                 التكلفة
                             </TableHead>
                             <TableHead className="text-right hidden md:table-cell">
@@ -97,59 +98,52 @@ export default function Index() {
                             </TableHead>
                         </TableRow>
                     </TableHeader>
+
                     <TableBody>
-                        {data.length > 0 ? (
-                            data.map((product) => (
-                                <TableRow key={product.id}>
-                                    <TableCell>{product.id}</TableCell>
-                                    <TableCell>{product.name}</TableCell>
-                                    <TableCell>{product.price}</TableCell>
-                                    <TableCell className="hidden md:table-cell">
-                                        {product.cost}
-                                    </TableCell>
-                                    <TableCell className="hidden md:table-cell">
-                                        {product.quantity}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="mr-2 hover:bg-yellow-400"
-                                            onClick={() => {
-                                                router.get(
-                                                    route("products.edit", {
-                                                        id: product.id,
-                                                    })
-                                                );
-                                            }}
-                                        >
-                                            <Edit className="h-4 w-4" />
-                                        </Button>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="hover:bg-yellow-400"
-                                            onClick={() => {
-                                                setProductToDelete(product);
-                                                setDeleteDialogOpen(true);
-                                            }}
-                                        >
-                                            <Trash className="h-4 w-4" />
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell colSpan={4} className="text-center">
-                                    <div className="my-28">
-                                        لا توجد بيانات
-                                    </div>
+                        {data.map((product) => (
+                            <TableRow key={product.id}>
+                                <TableCell>{product.id}</TableCell>
+                                <TableCell>{product.name}</TableCell>
+                                <TableCell>{product.price}</TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                    {product.cost}
+                                </TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                    {product.quantity}
+                                </TableCell>
+                                <TableCell>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="mr-2 hover:bg-yellow-400"
+                                        onClick={() => {
+                                            router.get(
+                                                route("products.edit", {
+                                                    id: product.id,
+                                                })
+                                            );
+                                        }}
+                                    >
+                                        <Edit className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="hover:bg-yellow-400"
+                                        onClick={() => {
+                                            setProductToDelete(product);
+                                            setDeleteDialogOpen(true);
+                                        }}
+                                    >
+                                        <Trash className="h-4 w-4" />
+                                    </Button>
                                 </TableCell>
                             </TableRow>
-                        )}
+                        ))}
                     </TableBody>
                 </Table>
+                {!(data.length > 0) && <NoData />}
+
                 <DataTablePagination
                     currentPage={current_page}
                     lastPage={last_page}

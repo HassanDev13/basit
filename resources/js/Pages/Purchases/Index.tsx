@@ -22,12 +22,13 @@ import { Backpack, Edit, SquareChevronLeft, Trash } from "lucide-react";
 import Guest from "@/layouts/auth-layout";
 import { Link, router, usePage } from "@inertiajs/react";
 import AdminLayout from "@/layouts/admin-layout";
-import { PaginatedResponse, Purchase , PurchaseStatus } from "@/types";
+import { PaginatedResponse, Purchase, PurchaseStatus } from "@/types";
 import { DataTablePagination } from "@/components/datatable/datatable-pagination";
 
 import { useToast } from "@/hooks/use-toast";
 import FilterBar from "../Products/FilterBar";
 import { Badge } from "@/components/ui/badge";
+import NoData from "@/components/no-data";
 
 export default function Index() {
     const { purchases: initialpurchases } = usePage<{
@@ -91,17 +92,19 @@ export default function Index() {
                         إضافة
                     </Button>
                 </div>
-                <Table className="">
+                <Table className="mb-4">
                     <TableHeader>
                         <TableRow>
                             <TableHead className="text-right">#</TableHead>
                             <TableHead className="text-right">
                                 اسم المنتج
                             </TableHead>
-                            <TableHead className="text-right">
+                            <TableHead className="text-right hidden md:table-cell">
                                 التكلفة
                             </TableHead>
-                            <TableHead className="text-right">الكمية</TableHead>
+                            <TableHead className="text-right hidden md:table-cell">
+                                الكمية
+                            </TableHead>
                             <TableHead className="text-right">
                                 تاريخ الشراء
                             </TableHead>
@@ -112,35 +115,45 @@ export default function Index() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data.map((purchase) => (
-                            <TableRow key={purchase.id}>
-                                <TableCell>{purchase.id}</TableCell>
-                                <TableCell>{purchase.product.name}</TableCell>
-                                <TableCell>{purchase.cost}</TableCell>
-                                <TableCell>{purchase.quantity}</TableCell>
-                                <TableCell>{purchase.purchase_date}</TableCell>
-                                <TableCell> 
-                                    {renderBadge(purchase)}
-                                </TableCell>
-                                <TableCell>
-                                    
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        disabled={purchase.status === "canceled"}
-                                        className="hover:bg-yellow-400"
-                                        onClick={() => {
-                                            setpurchaseToDelete(purchase);
-                                            setDeleteDialogOpen(true);
-                                        }}
-                                    >
-                                        <Trash className="h-4 w-4" />
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        { data.map((purchase) => (
+                                <TableRow key={purchase.id}>
+                                    <TableCell>{purchase.id}</TableCell>
+                                    <TableCell>
+                                        {purchase.product.name}
+                                    </TableCell>
+                                    <TableCell className="hidden md:table-cell">
+                                        {purchase.cost}
+                                    </TableCell>
+                                    <TableCell className="hidden md:table-cell">
+                                        {purchase.quantity}
+                                    </TableCell>
+                                    <TableCell>
+                                        {purchase.purchase_date}
+                                    </TableCell>
+                                    <TableCell>
+                                        {renderBadge(purchase)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            disabled={
+                                                purchase.status === "canceled"
+                                            }
+                                            className="hover:bg-yellow-400"
+                                            onClick={() => {
+                                                setpurchaseToDelete(purchase);
+                                                setDeleteDialogOpen(true);
+                                            }}
+                                        >
+                                            <Trash className="h-4 w-4" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
+                {!(data.length > 0) && <NoData />}
                 <DataTablePagination
                     currentPage={current_page}
                     lastPage={last_page}

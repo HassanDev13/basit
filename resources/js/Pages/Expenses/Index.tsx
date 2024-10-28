@@ -28,6 +28,7 @@ import { DataTablePagination } from "@/components/datatable/datatable-pagination
 import { useToast } from "@/hooks/use-toast";
 import FilterBar from "../Products/FilterBar";
 import { Badge } from "@/components/ui/badge";
+import NoData from "@/components/no-data";
 
 export default function Index() {
     const { expenses: initialExpenses } = usePage<{
@@ -37,7 +38,9 @@ export default function Index() {
     const { data, current_page, last_page, per_page } = initialExpenses;
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [expenseToDelete, setExpenseToDelete] = useState<Expense | null>(null);
+    const [expenseToDelete, setExpenseToDelete] = useState<Expense | null>(
+        null
+    );
 
     const handleDeleteConfirm = () => {
         if (expenseToDelete) {
@@ -53,8 +56,6 @@ export default function Index() {
             setExpenseToDelete(null);
         }
     };
-
-   
 
     return (
         <AdminLayout name="">
@@ -80,41 +81,50 @@ export default function Index() {
                         إضافة
                     </Button>
                 </div>
-                <Table>
+                <Table className="mb-4">
                     <TableHeader>
                         <TableRow>
                             <TableHead className="text-right">#</TableHead>
                             <TableHead className="text-right">المبلغ</TableHead>
                             <TableHead className="text-right">النوع</TableHead>
-                            <TableHead className="text-right">تاريخ المصروف</TableHead>
-                            <TableHead className="text-right">الإجراءات</TableHead>
+                            <TableHead className="text-right">
+                                تاريخ المصروف
+                            </TableHead>
+                            <TableHead className="text-right">
+                                الإجراءات
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data.map((expense) => (
-                            <TableRow key={expense.id}>
-                                <TableCell>{expense.id}</TableCell>
-                                <TableCell>{expense.amount}</TableCell>
-                                <TableCell>{expense.expense_type?.name}</TableCell>
-                                <TableCell>{expense.expense_date}</TableCell>
-                              
-                                <TableCell>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"            
-                                        className="hover:bg-yellow-400"
-                                        onClick={() => {
-                                            setExpenseToDelete(expense);
-                                            setDeleteDialogOpen(true);
-                                        }}
-                                    >
-                                        <Trash className="h-4 w-4" />
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        { data.map((expense) => (
+                                <TableRow key={expense.id}>
+                                    <TableCell>{expense.id}</TableCell>
+                                    <TableCell>{expense.amount}</TableCell>
+                                    <TableCell>
+                                        {expense.expense_type?.name}
+                                    </TableCell>
+                                    <TableCell>
+                                        {expense.expense_date}
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="hover:bg-yellow-400"
+                                            onClick={() => {
+                                                setExpenseToDelete(expense);
+                                                setDeleteDialogOpen(true);
+                                            }}
+                                        >
+                                            <Trash className="h-4 w-4" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
+                {!(data.length > 0) && <NoData />}
                 <DataTablePagination
                     currentPage={current_page}
                     lastPage={last_page}
@@ -128,7 +138,8 @@ export default function Index() {
                         <DialogHeader>
                             <DialogTitle>تأكيد الحذف</DialogTitle>
                             <DialogDescription>
-                                هل أنت متأكد أنك تريد حذف هذه المصروفات؟ لا يمكن التراجع عن هذا الإجراء.
+                                هل أنت متأكد أنك تريد حذف هذه المصروفات؟ لا يمكن
+                                التراجع عن هذا الإجراء.
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>

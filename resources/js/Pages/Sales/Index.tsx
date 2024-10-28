@@ -28,6 +28,7 @@ import { DataTablePagination } from "@/components/datatable/datatable-pagination
 import { useToast } from "@/hooks/use-toast";
 import FilterBar from "../Products/FilterBar";
 import { Badge } from "@/components/ui/badge";
+import NoData from "@/components/no-data";
 
 export default function Index() {
     const { sales: initialSales } = usePage<{
@@ -89,50 +90,61 @@ export default function Index() {
                         إضافة
                     </Button>
                 </div>
-                <Table>
+                <Table className="mb-4">
                     <TableHeader>
                         <TableRow>
                             <TableHead className="text-right">#</TableHead>
                             <TableHead className="text-right">
                                 اسم المنتج
                             </TableHead>
-                            <TableHead className="text-right">المبلغ</TableHead>
-                            <TableHead className="text-right">الكمية</TableHead>
-                            <TableHead className="text-right">تاريخ البيع</TableHead>
+                            <TableHead className="text-right hidden md:table-cell">
+                                المبلغ
+                            </TableHead>
+                            <TableHead className="text-right hidden md:table-cell">
+                                الكمية
+                            </TableHead>
+                            <TableHead className="text-right">
+                                تاريخ البيع
+                            </TableHead>
                             <TableHead className="text-right">الحالة</TableHead>
-                            <TableHead className="text-right">الإجراءات</TableHead>
+                            <TableHead className="text-right">
+                                الإجراءات
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {data.map((sale) => (
-                            <TableRow key={sale.id}>
-                                <TableCell>{sale.id}</TableCell>
-                                <TableCell>{sale.product.name}</TableCell>
+                                <TableRow key={sale.id}>
+                                    <TableCell>{sale.id}</TableCell>
+                                    <TableCell>{sale.product.name}</TableCell>
 
-                                <TableCell>{sale.final_price}</TableCell>
-                                <TableCell>{sale.quantity}</TableCell>
-                                <TableCell>{sale.sale_date}</TableCell>
-                                <TableCell>
-                                    {renderBadge(sale)}
-                                </TableCell>
-                                <TableCell>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        disabled={sale.status === "canceled"}
-                                        className="hover:bg-yellow-400"
-                                        onClick={() => {
-                                            setSaleToDelete(sale);
-                                            setDeleteDialogOpen(true);
-                                        }}
-                                    >
-                                        <Trash className="h-4 w-4" />
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                                    <TableCell className="hidden md:table-cell">
+                                        {sale.final_price}
+                                    </TableCell>
+                                    <TableCell className="hidden md:table-cell">{sale.quantity}</TableCell>
+                                    <TableCell>{sale.sale_date}</TableCell>
+                                    <TableCell>{renderBadge(sale)}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            disabled={
+                                                sale.status === "canceled"
+                                            }
+                                            className="hover:bg-yellow-400"
+                                            onClick={() => {
+                                                setSaleToDelete(sale);
+                                                setDeleteDialogOpen(true);
+                                            }}
+                                        >
+                                            <Trash className="h-4 w-4" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
+                {!(data.length > 0) && <NoData />}
                 <DataTablePagination
                     currentPage={current_page}
                     lastPage={last_page}
@@ -146,7 +158,8 @@ export default function Index() {
                         <DialogHeader>
                             <DialogTitle>تأكيد الحذف</DialogTitle>
                             <DialogDescription>
-                                هل أنت متأكد أنك تريد حذف هذه المبيعة؟ لا يمكن التراجع عن هذا الإجراء.
+                                هل أنت متأكد أنك تريد حذف هذه المبيعة؟ لا يمكن
+                                التراجع عن هذا الإجراء.
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
