@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RolesAndPermissionController;
 use App\Http\Controllers\SaleController;
 
 
@@ -21,6 +22,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class , 'index'])->name('welcome');
     
+    Route::get('/role_and_permission', [RolesAndPermissionController::class, 'index'])->name('role.permission');
+    Route::post('/update_role', [RolesAndPermissionController::class, 'updateRoles'])->name('role.update');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

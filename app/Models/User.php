@@ -109,4 +109,5 @@ class User extends Authenticatable implements LaratrustUser
     {
         return $this->hasMany(Expense::class);
     }
+
 }
