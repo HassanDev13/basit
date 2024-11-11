@@ -12,8 +12,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolesAndPermissionController;
 use App\Http\Controllers\SaleController;
-
-
+use App\Http\Controllers\TransactionReturnController;
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -63,6 +62,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/sales/{id}/edit', [SaleController::class, 'edit'])->name('sales.edit');
     Route::put('/sales/{id}', [SaleController::class, 'update'])->name('sales.update');
     Route::delete('/sales/{id}', [SaleController::class, 'destroy'])->name('sales.destroy');
+
+    // Transaction Return Routes
+    Route::get('/returns/{id}/{type}', [TransactionReturnController::class, 'create'])->name('returns.create');
+    // href={route('returns.create', { id: sale.id, type: 'sale' })}>
+
+    Route::post('/returns', [TransactionReturnController::class, 'store'])->name('returns.store');
+
 });
 
 Route::get('/language/{language}', function ($language) {

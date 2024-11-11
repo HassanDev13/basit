@@ -17,7 +17,7 @@
         "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
-        "nativephp/electron": "^0.7.4",
+        "nativephp/electron": "^0.8",
         "santigarcor/laratrust": "^8.3",
         "spatie/laravel-translation-loader": "^2.8",
         "tightenco/ziggy": "^2.0"

@@ -16,6 +16,26 @@ class Sale extends Model
         return $this->belongsTo(Product::class)->withTrashed();;
     }
 
+    public function returns(){
+        return $this->hasMany(TransactionReturn::class);
+    }
+    public function getTotalQuantityAttribute(){
+        $returnedQuantity = $this->returns()->sum('quantity');
+        return $this->quantity - $returnedQuantity;
+    }
+
+    public function getSaleStatusAttribute(): string
+    {
+        $result = $this->quantity - $this->total_quantity ;
+
+        if ($result == $this->quantity) {
+            return 'Returned';
+        } else if ($result > 0) {
+            return 'PartReturned';
+        } else {
+            return 'Completed';
+        }
+    }
     public function scopeFilter($query, $filters)
     {
         if ($filters['search'] ?? false) {

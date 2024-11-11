@@ -22,13 +22,28 @@ class ExpenseController extends Controller
                 ->withQueryString()
                 ->through(fn($expense) => [
                     'id' => $expense->id,
-                    'amount' => $expense->amount,
+                    'amount' => $expense->total_amount,
                     'expense_date' => $expense->expense_date,
+                    'status' => $expense->expense_status,
                     'expense_type' => $expense->expenseType ?? 'N/A', // Adjust according to your column name
                 ]),
         ]);
     }
+    public function show($id)
+    {
+        $expense = Expense::with(['returns'])->findOrFail($id);
 
+        return Inertia::render('Expenses/Show', [
+            'expense' => [
+                'id' => $expense->id,
+                'amount' => $expense->total_amount,
+                'expense_date' => $expense->expense_date,
+                'expense_type' => $expense->expenseType ?? 'N/A',
+                'status' => $expense->expense_status,
+                'returns' => $expense->returns,
+            ],
+        ]);
+    }
     public function create()
     {
         // Fetch available expense types for the form
@@ -41,7 +56,7 @@ class ExpenseController extends Controller
 
     public function store(Request $request)
     {
-     
+
         // Define the validation rules
         $rules = [
             'amount' => 'required|numeric|min:0',
@@ -50,17 +65,17 @@ class ExpenseController extends Controller
         ];
 
         // Check if a new expense type is being added
-        if ($request->add_type ) {
+        if ($request->add_type) {
             // Validate new expense type for uniqueness
             $rules['new_expense_type'] = 'required|string|max:255|unique:expense_types,name';
         } else {
             // Validate the existing expense type ID
             $rules['expense_type_id'] = 'required|integer|exists:expense_types,id';
-        } 
+        }
 
         // Validate the request data
         $validatedData = $request->validate($rules);
-       
+
         // Add user_id to the validated data
         $validatedData['user_id'] = Auth::id();
 

@@ -23,10 +23,10 @@ class PurchaseController extends Controller
                 ->withQueryString()
                 ->through(fn($purchase) => [
                     'id' => $purchase->id,
-                    'quantity' => $purchase->quantity,
+                    'quantity' => $purchase->total_quantity,
                     'cost' => $purchase->cost, // Corrected 'cost'
                     'purchase_date' => $purchase->purchase_date,
-                    'status' => $purchase->status,
+                    'status' => $purchase->purchase_status,
                     'product' => $purchase->product ?? 'N/A', // Now eager-loaded correctly
                 ]),
         ]);
@@ -85,7 +85,22 @@ class PurchaseController extends Controller
     }
 
   
+    public function show($id)
+    {
+        $purchase = Purchase::with(['product','returns'])->findOrFail($id);
 
+        return Inertia::render('Purchases/Show', [
+            'purchase' => [
+                'id' => $purchase->id,
+                'quantity' => $purchase->total_quantity,
+                'cost' => $purchase->cost,
+                'purchase_date' => $purchase->purchase_date,
+                'status' => $purchase->purchase_status,
+                'product' => $purchase->product ?? 'N/A',
+                'returns'=> $purchase->returns,
+            ],
+        ]);
+    }
     public function destroy($id)
     {
         // Find the purchase by ID

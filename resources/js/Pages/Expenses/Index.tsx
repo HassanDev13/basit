@@ -18,7 +18,15 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Backpack, Edit, SquareChevronLeft, Trash } from "lucide-react";
+import {
+    ArrowUpLeft,
+    Backpack,
+    Edit,
+    Eye,
+    SquareChevronLeft,
+    Trash,
+    View,
+} from "lucide-react";
 import Guest from "@/layouts/auth-layout";
 import { Link, router, usePage } from "@inertiajs/react";
 import AdminLayout from "@/layouts/admin-layout";
@@ -56,7 +64,18 @@ export default function Index() {
             setExpenseToDelete(null);
         }
     };
-
+    const renderBadge = (expense: Expense) => {
+        switch (expense.status) {
+            case "Completed":
+                return <Badge variant="outline">مكتمل</Badge>;
+            case "PartReturned":
+                return <Badge variant="default">إرجاع جزئي</Badge>;
+            case "Returned":
+                return <Badge variant="destructive">مرجع</Badge>;
+            default:
+                return <Badge>حالة غير معروفة</Badge>;
+        }
+    };
     return (
         <AdminLayout name="">
             <div className="container mx-auto p-4 rounded-lg shadow-sm md:px-20">
@@ -91,24 +110,25 @@ export default function Index() {
                                 تاريخ المصروف
                             </TableHead>
                             <TableHead className="text-right">
+                                الحالة
+                            </TableHead>
+                            <TableHead className="text-right">
                                 الإجراءات
                             </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        { data.map((expense) => (
-                                <TableRow key={expense.id}>
-                                    <TableCell>{expense.id}</TableCell>
-                                    <TableCell>{expense.amount}</TableCell>
-                                    <TableCell>
-                                        {expense.expense_type?.name}
-                                    </TableCell>
-                                    <TableCell>
-                                        {expense.expense_date}
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <Button
+                        {data.map((expense) => (
+                            <TableRow key={expense.id}>
+                                <TableCell>{expense.id}</TableCell>
+                                <TableCell>{expense.amount}</TableCell>
+                                <TableCell>
+                                    {expense.expense_type?.name}
+                                </TableCell>
+                                <TableCell>{expense.expense_date}</TableCell>
+                                <TableCell>{renderBadge(expense)}</TableCell>
+                                <TableCell>
+                                    {/* <Button
                                             variant="ghost"
                                             size="icon"
                                             className="hover:bg-yellow-400"
@@ -118,10 +138,37 @@ export default function Index() {
                                             }}
                                         >
                                             <Trash className="h-4 w-4" />
+                                        </Button> */}
+                                    <Link
+                                        href={route("returns.create", {
+                                            id: expense.id,
+                                            type: "expense",
+                                        })}
+                                    >
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="hover:bg-yellow-400"
+                                        >
+                                            <ArrowUpLeft className="h-4 w-4" />
                                         </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                                    </Link>
+                                    <Link
+                                        href={route("expenses.show", {
+                                            id: expense.id,
+                                        })}
+                                    >
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="hover:bg-yellow-400"
+                                        >
+                                            <Eye className="h-4 w-4" />
+                                        </Button>
+                                    </Link>
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
                 {!(data.length > 0) && <NoData />}

@@ -18,11 +18,18 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Backpack, Edit, SquareChevronLeft, Trash } from "lucide-react";
+import {
+    ArrowUpLeft,
+    Backpack,
+    Edit,
+    Eye,
+    SquareChevronLeft,
+    Trash,
+} from "lucide-react";
 import Guest from "@/layouts/auth-layout";
 import { Link, router, usePage } from "@inertiajs/react";
 import AdminLayout from "@/layouts/admin-layout";
-import { PaginatedResponse, Purchase, PurchaseStatus } from "@/types";
+import { PaginatedResponse, Purchase } from "@/types";
 import { DataTablePagination } from "@/components/datatable/datatable-pagination";
 
 import { useToast } from "@/hooks/use-toast";
@@ -59,10 +66,12 @@ export default function Index() {
 
     const renderBadge = (purchase: Purchase) => {
         switch (purchase.status) {
-            case "approved":
+            case "Completed":
                 return <Badge variant="outline">مكتمل</Badge>;
-            case "canceled":
-                return <Badge variant="destructive">ملغى</Badge>;
+            case "PartReturned":
+                return <Badge variant="default">إرجاع جزئي</Badge>;
+            case "Returned":
+                return <Badge variant="destructive">مرجع</Badge>;
             default:
                 return <Badge>حالة غير معروفة</Badge>;
         }
@@ -105,7 +114,7 @@ export default function Index() {
                             <TableHead className="text-right hidden md:table-cell">
                                 الكمية
                             </TableHead>
-                            <TableHead className="text-right">
+                            <TableHead className="text-right hidden md:table-cell">
                                 تاريخ الشراء
                             </TableHead>
                             <TableHead className="text-right">الحالة</TableHead>
@@ -115,42 +124,63 @@ export default function Index() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        { data.map((purchase) => (
-                                <TableRow key={purchase.id}>
-                                    <TableCell>{purchase.id}</TableCell>
-                                    <TableCell>
-                                        {purchase.product.name}
-                                    </TableCell>
-                                    <TableCell className="hidden md:table-cell">
-                                        {purchase.cost}
-                                    </TableCell>
-                                    <TableCell className="hidden md:table-cell">
-                                        {purchase.quantity}
-                                    </TableCell>
-                                    <TableCell>
-                                        {purchase.purchase_date}
-                                    </TableCell>
-                                    <TableCell>
-                                        {renderBadge(purchase)}
-                                    </TableCell>
-                                    <TableCell>
+                        {data.map((purchase) => (
+                            <TableRow key={purchase.id}>
+                                <TableCell>{purchase.id}</TableCell>
+                                <TableCell>{purchase.product.name}</TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                    {purchase.cost}
+                                </TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                    {purchase.quantity}
+                                </TableCell>
+                                <TableCell className="hidden md:table-cell">{purchase.purchase_date}</TableCell>
+                                <TableCell>{renderBadge(purchase)}</TableCell>
+                                <TableCell className="flex">
+                                    {/* <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        disabled={
+                                            purchase.status === "canceled"
+                                        }
+                                        className="hover:bg-yellow-400"
+                                        onClick={() => {
+                                            setpurchaseToDelete(purchase);
+                                            setDeleteDialogOpen(true);
+                                        }}
+                                    >
+                                        <Trash className="h-4 w-4" />
+                                    </Button> */}
+                                    <Link
+                                        href={route("returns.create", {
+                                            id: purchase.id,
+                                            type: "purchase",
+                                        })}
+                                    >
                                         <Button
                                             variant="ghost"
                                             size="icon"
-                                            disabled={
-                                                purchase.status === "canceled"
-                                            }
                                             className="hover:bg-yellow-400"
-                                            onClick={() => {
-                                                setpurchaseToDelete(purchase);
-                                                setDeleteDialogOpen(true);
-                                            }}
                                         >
-                                            <Trash className="h-4 w-4" />
+                                            <ArrowUpLeft className="h-4 w-4" />
                                         </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                                    </Link>
+                                    <Link
+                                        href={route("purchases.show", {
+                                            id: purchase.id
+                                        })}
+                                    >
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="hover:bg-yellow-400"
+                                        >
+                                            <Eye className="h-4 w-4" />
+                                        </Button>
+                                    </Link>
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
                 {!(data.length > 0) && <NoData />}

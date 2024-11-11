@@ -7,4 +7,6 @@ declare global {
     }
 
     var route: typeof ziggyRoute;
+
+  
 }

@@ -25,9 +25,27 @@ class SaleController extends Controller
                     'quantity' => $sale->quantity,
                     'final_price' => $sale->final_price,
                     'sale_date' => $sale->sale_date,
-                    'status' => $sale->status,
+                    'status' => $sale->sale_status,
                     'product' => $sale->product ?? 'N/A',
                 ]),
+        ]);
+    }
+
+
+    public function show($id)
+    {
+        $sale = Sale::with(['product', 'returns'])->findOrFail($id);
+
+        return Inertia::render('Sales/Show', [
+            'sale' => [
+                'id' => $sale->id,
+                'quantity' => $sale->quantity,
+                'final_price' => $sale->final_price,
+                'sale_date' => $sale->sale_date,
+                'status' => $sale->sale_status,
+                'product' => $sale->product ?? 'N/A',
+                'returns' => $sale->returns,
+            ],
         ]);
     }
 
@@ -45,7 +63,7 @@ class SaleController extends Controller
 
     public function store(Request $request)
     {
-       
+
         $rules = [
             'final_price' => 'required|numeric|min:0',
             'sale_date' => 'required|date|date_format:Y-m-d|before_or_equal:today',
@@ -63,32 +81,31 @@ class SaleController extends Controller
                 },
             ],
         ];
-    
+
         // Validate the request data
         $validatedData = $request->validate($rules);
-    
+
         // Add user_id to the validated data
         $validatedData['user_id'] = Auth::id();
-    
+
         // Find the product and decrement its quantity
         $product = Product::findOrFail($validatedData['product_id']);
         $product->decrement('quantity', $validatedData['quantity']);
-    
+
         // Create the sale record
         Auth::user()->sales()->create($validatedData);
-    
+
         return to_route('sales.index');
-    
     }
 
     public function destroy($id)
     {
         // Find the sale by ID
         $sale = Sale::findOrFail($id);
-        
+
         // Change the status to 'canceled'
         $sale->status = 'canceled';
-        
+
         // Find the related product and increment its quantity back
         $product = $sale->product;
         if ($product) {
