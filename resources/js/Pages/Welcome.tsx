@@ -27,7 +27,7 @@ export default function Welcome({
         { name: "المشتريات", link: route("purchases.index") },
         { name: "المصاريف", link: route("expenses.index") },
         { name: "المبيعات", link: route("sales.index") },
-        { name: "الصلاحيات", link: route("role.permission") },
+        // { name: "الصلاحيات", link: route("role.permission") },
     ];
     
     return (

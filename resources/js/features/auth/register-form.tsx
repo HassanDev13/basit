@@ -31,27 +31,27 @@ function RegisterForm() {
     return (
         <Card className="w-full">
             <CardHeader>
-                <CardTitle className="text-2xl">Register</CardTitle>
+                <CardTitle className="text-2xl">تسجيل</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
                 <form className="grid gap-4" onSubmit={submit}>
                     <div className="grid gap-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="name">الاسم</Label>
                         <Input
                             id="name"
                             name="name"
-                            placeholder="John Doe"
+                            placeholder="محمد"
                             autoComplete="name"
                             value={data.name}
                             onChange={(e) => setData("name", e.target.value)}
                         />
 
                         {errors.name && (
-                            <p className="text-destructive">{errors.email}</p>
+                            <p className="text-destructive">{errors.name}</p>
                         )}
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">البريد الإلكتروني</Label>
                         <Input
                             id="email"
                             name="email"
@@ -61,12 +61,12 @@ function RegisterForm() {
                             onChange={(e) => setData("email", e.target.value)}
                         />
 
-                        {errors.name && (
+                        {errors.email && (
                             <p className="text-destructive">{errors.email}</p>
                         )}
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">كلمة المرور</Label>
                         <PasswordInput
                             id="password"
                             name="password"
@@ -84,7 +84,7 @@ function RegisterForm() {
                         )}
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="password">Confirm Password</Label>
+                        <Label htmlFor="password_confirmation">تأكيد كلمة المرور</Label>
                         <PasswordInput
                             id="password_confirmation"
                             name="password_confirmation"
@@ -101,17 +101,16 @@ function RegisterForm() {
                             </p>
                         )}
                     </div>
-                    <div className="flex items-center justify-end mt-4">
+                    <div className="flex items-center justify-start mt-4">
+                        <Button className="me-4  bg-yellow-400 hover:bg-yellow-500 text-black" disabled={processing}>
+                            تسجيل
+                        </Button>
                         <Link
                             href={route("login")}
                             className="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            Already registered?
+                            هل لديك حساب بالفعل؟
                         </Link>
-
-                        <Button className="ms-4" disabled={processing}>
-                            Register
-                        </Button>
                     </div>
                 </form>
             </CardContent>

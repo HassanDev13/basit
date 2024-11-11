@@ -14,8 +14,8 @@ import { FormEventHandler } from "react";
 
 export function LoginForm({ canResetPassword }: { canResetPassword: boolean }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
-        password: "",
+        email: "test@basit.com",
+        password: "password",
         remember: false,
     });
 
@@ -75,15 +75,14 @@ export function LoginForm({ canResetPassword }: { canResetPassword: boolean }) {
                             </p>
                         )}
                     </div>
-                    <Button type="submit" className="w-full">
+                 
+                    <Button
+                        type="submit"
+                        className="w-full bg-yellow-400 hover:bg-yellow-500 text-black"
+                    >
                         تسجيل الدخول
                     </Button>
                 </form>
-                {/* <a href={route("login.google")}>
-                    <Button variant="outline" className="w-full">
-                        تسجيل الدخول باستخدام جوجل
-                    </Button>
-                </a> */}
             </CardContent>
         </Card>
     );

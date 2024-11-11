@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
 
         // Create or update the regular user
         $regularUser = User::firstOrCreate([
-            'email' => 'regular@app.com',
+            'email' => 'test@basit.com',
         ], [
             'username' => 'regular-user',
             'first_name' => 'regular',

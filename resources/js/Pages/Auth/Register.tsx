@@ -6,7 +6,8 @@ export default function Register() {
     return (
         <AuthLayout>
             <Head title="Register" />
-            <div className="w-full mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+            <div className="flex flex-col w-full h-screen sm:max-w-md sm:rounded-lg justify-center items-center space-y-4">
+
                 <RegisterForm />
             </div>
         </AuthLayout>
