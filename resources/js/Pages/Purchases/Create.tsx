@@ -90,9 +90,9 @@ export default function Create() {
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
+                        <PopoverContent className="p-0" dir="rtl">
                             <Command>
-                                <CommandInput placeholder="إبحث . . ." />
+                                <CommandInput className="m-2" placeholder="إبحث . . ." />
                                 <CommandList>
                                     <CommandEmpty>
                                        لا يوجد
