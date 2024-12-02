@@ -44,8 +44,11 @@ class Purchase extends Model
     }
     public function scopeFilter($query, $filters)
     {
-        if ($filters['search'] ?? false) {
-            $query->where('id', 'like', '%' . $filters['search'] . '%');
+        if (!empty($filters['search'])) {
+            $query->where('id', 'like', '%' . $filters['search'] . '%')
+                ->orWhereHas('product', function ($subQuery) use ($filters) {
+                    $subQuery->where('name', 'like', '%' . $filters['search'] . '%');
+                });
         }
     }
 }

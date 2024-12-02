@@ -24,24 +24,43 @@ class HomeController extends Controller
         $currentDate = Carbon::now()->day;
 
         // Calculate total sales by multiplying final_price by quantity
-        $totalSales = Auth::user()->sales()->whereMonth('sale_date', $currentMonth)
+        $totalSales = Auth::user()->sales()
+            ->with('returns') // Eager load returns to minimize queries
+            ->whereMonth('sale_date', $currentMonth)
             ->whereYear('sale_date', $currentYear)
             ->whereDay('sale_date', '<=', $currentDate)
-            ->where('status', 'approved')
-            ->sum(DB::raw('final_price * quantity'));
+            ->get()
+            ->sum(function ($sale) {
+                $returnedQuantity = $sale->returns->sum('quantity');
+                $totalQuantity = $sale->quantity - $returnedQuantity;
+                return $sale->final_price * $totalQuantity;
+            });
 
         // Calculate total purchases by multiplying cost by quantity
-        $totalPurchases = Auth::user()->purchases()->whereMonth('purchase_date', $currentMonth)
+        $totalPurchases = Auth::user()->purchases()
+            ->with('returns') // Eager load returns
+            ->whereMonth('purchase_date', $currentMonth)
             ->whereYear('purchase_date', $currentYear)
             ->whereDay('purchase_date', '<=', $currentDate)
-            ->where('status', 'approved')
-            ->sum(DB::raw('cost * quantity'));
+            ->get()
+            ->sum(function ($purchase) {
+                $returnedQuantity = $purchase->returns->sum('quantity');
+                $totalQuantity = $purchase->quantity - $returnedQuantity;
+                return $purchase->cost * $totalQuantity;
+            });
 
         // Calculate total expenses
-        $totalExpenses =  Auth::user()->expenses()->whereMonth('expense_date', $currentMonth)
+        $totalExpenses = Auth::user()->expenses()
+            ->with('returns') // Eager load returns
+            ->whereMonth('expense_date', $currentMonth)
             ->whereYear('expense_date', $currentYear)
             ->whereDay('expense_date', '<=', $currentDate)
-            ->sum('amount');
+            ->get()
+            ->sum(function ($expense) {
+                $returnedAmount = $expense->returns->sum('amount');
+                $totalAmount = $expense->amount - $returnedAmount;
+                return $totalAmount;
+            });
 
         // Calculate the gross profit
         $grossProfit = $totalSales - $totalPurchases - $totalExpenses;

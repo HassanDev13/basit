@@ -16,17 +16,19 @@ class Sale extends Model
         return $this->belongsTo(Product::class)->withTrashed();;
     }
 
-    public function returns(){
+    public function returns()
+    {
         return $this->hasMany(TransactionReturn::class);
     }
-    public function getTotalQuantityAttribute(){
+    public function getTotalQuantityAttribute()
+    {
         $returnedQuantity = $this->returns()->sum('quantity');
         return $this->quantity - $returnedQuantity;
     }
 
     public function getSaleStatusAttribute(): string
     {
-        $result = $this->quantity - $this->total_quantity ;
+        $result = $this->quantity - $this->total_quantity;
 
         if ($result == $this->quantity) {
             return 'Returned';
@@ -38,9 +40,11 @@ class Sale extends Model
     }
     public function scopeFilter($query, $filters)
     {
-        if ($filters['search'] ?? false) {
+        if (!empty($filters['search'])) {
             $query->where('id', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('name', 'like', '%' . $filters['search'] . '%');
+                ->orWhereHas('product', function ($subQuery) use ($filters) {
+                    $subQuery->where('name', 'like', '%' . $filters['search'] . '%');
+                });
         }
     }
 }

@@ -30,7 +30,8 @@ class Product extends Model
     public function scopeFilter($query, $filters)
     {
         if ($filters['search'] ?? false) {
-            $query->where('id', 'like', '%' . $filters['search'] . '%');
+            $query->where('id', 'like', '%' . $filters['search'] . '%')
+            ->orWhere('name', 'like', '%' . $filters['search'] . '%');
         }
     }
 }

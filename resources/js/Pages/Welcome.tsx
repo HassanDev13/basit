@@ -3,33 +3,33 @@ import { PageProps } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { LogOut } from "lucide-react";
+import { ShoppingBag, FileText, CreditCard, BarChart } from "lucide-react";
 
 export default function Welcome({
     auth,
     laravelVersion,
     phpVersion,
 }: PageProps<{ laravelVersion: string; phpVersion: string }>) {
-  
     type Report = {
         title: string;
         value: string;
     };
 
-    const { reports , currentMonth , currentYear , currentDate } = usePage<{
-        reports: Report[]; 
-        currentMonth : number;
-        currentYear : number;
-        currentDate : number;
+    const { reports, currentMonth, currentYear, currentDate } = usePage<{
+        reports: Report[];
+        currentMonth: number;
+        currentYear: number;
+        currentDate: number;
     }>().props;
 
     const operations = [
-        { name: "المنتجات", link: route("products.index") },
-        { name: "المشتريات", link: route("purchases.index") },
-        { name: "المصاريف", link: route("expenses.index") },
-        { name: "المبيعات", link: route("sales.index") },
-        // { name: "الصلاحيات", link: route("role.permission") },
+        { name: "المنتجات", link: route("products.index"), icon: ShoppingBag },
+        { name: "المشتريات", link: route("purchases.index"), icon: FileText },
+        { name: "المصاريف", link: route("expenses.index"), icon: CreditCard },
+        { name: "المبيعات", link: route("sales.index"), icon: BarChart },
+        // { name: "الصلاحيات", link: route("role.permission"), icon: Shield },
     ];
-    
+
     return (
         <>
             <Head title="Welcome" />
@@ -37,7 +37,7 @@ export default function Welcome({
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-center justify-between mb-10">
                         <h1 className="text-2xl md:text-3xl font-bold text-right ">
-                            التقارير لهذا الشهر  
+                            التقارير لهذا الشهر
                         </h1>
                         <Button
                             type="button"
@@ -46,7 +46,7 @@ export default function Welcome({
                                 router.post(route("logout"));
                             }}
                         >
-                            <LogOut className="rotate-180"/>
+                            <LogOut className="rotate-180" />
                         </Button>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
@@ -70,8 +70,9 @@ export default function Welcome({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {operations.map((operation, index) => (
                             <Link key={index} href={operation.link}>
-                                <Card className="p-6 bg-yellow-100 text-center border border-yellow-300 shadow-sm hover:bg-yellow-200">
-                                    <h3 className="text-lg md:text-xl font-semibold text-yellow-800">
+                                <Card className="p-6 bg-white text-center border border-gray-300 shadow-sm hover:bg-gray-100 flex flex-col items-center">
+                                    <operation.icon className="w-10 h-10 text-gray-800 mb-4" />
+                                    <h3 className="text-lg md:text-xl font-semibold text-gray-800">
                                         {operation.name}
                                     </h3>
                                 </Card>
