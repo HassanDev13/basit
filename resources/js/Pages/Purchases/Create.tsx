@@ -92,10 +92,10 @@ export default function Create() {
                         </PopoverTrigger>
                         <PopoverContent className="w-[200px] p-0">
                             <Command>
-                                <CommandInput placeholder="Search framework..." />
+                                <CommandInput placeholder="إبحث . . ." />
                                 <CommandList>
                                     <CommandEmpty>
-                                        No framework found.
+                                       لا يوجد
                                     </CommandEmpty>
                                     <CommandGroup>
                                         {initialProducts.map((product) => (

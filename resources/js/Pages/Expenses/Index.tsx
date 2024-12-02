@@ -107,8 +107,8 @@ export default function Index() {
                         <TableRow>
                             <TableHead className="text-right">#</TableHead>
                             <TableHead className="text-right">المبلغ</TableHead>
-                            <TableHead className="text-right">النوع</TableHead>
-                            <TableHead className="text-right">
+                            <TableHead className="text-right hidden md:table-cell">النوع</TableHead>
+                            <TableHead className="text-right hidden md:table-cell" >
                                 تاريخ المصروف
                             </TableHead>
                             <TableHead className="text-right">الحالة</TableHead>
@@ -122,10 +122,10 @@ export default function Index() {
                             <TableRow key={expense.id}>
                                 <TableCell>{expense.id}</TableCell>
                                 <TableCell>{expense.amount}</TableCell>
-                                <TableCell>
+                                <TableCell className="hidden md:table-cell">
                                     {expense.expense_type?.name}
                                 </TableCell>
-                                <TableCell>{expense.expense_date}</TableCell>
+                                <TableCell className="hidden md:table-cell">{expense.expense_date}</TableCell>
                                 <TableCell>{renderBadge(expense)}</TableCell>
                                 <TableCell>
                                     {/* <Button

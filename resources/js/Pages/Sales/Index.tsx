@@ -113,7 +113,7 @@ export default function Index() {
                             <TableHead className="text-right hidden md:table-cell">
                                 الكمية
                             </TableHead>
-                            <TableHead className="text-right">
+                            <TableHead className="text-right hidden md:table-cell">
                                 تاريخ البيع
                             </TableHead>
                             <TableHead className="text-right">الحالة</TableHead>
@@ -134,7 +134,7 @@ export default function Index() {
                                 <TableCell className="hidden md:table-cell">
                                     {sale.quantity}
                                 </TableCell>
-                                <TableCell>{sale.sale_date}</TableCell>
+                                <TableCell className="hidden md:table-cell">{sale.sale_date}</TableCell>
                                 <TableCell>{renderBadge(sale)}</TableCell>
                                 <TableCell>
                                     {/* <Button

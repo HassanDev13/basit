@@ -179,7 +179,7 @@ export default function CreateSale() {
                         value={data.sale_date}
                         error={errors.sale_date}
                         onChange={handleChange}
-                        className="direction-reverse text-left"
+                        className="text-right w-full "
                     />
                 </div>
             </div>
