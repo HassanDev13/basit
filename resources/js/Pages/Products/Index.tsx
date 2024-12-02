@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { Backpack, Edit, SquareChevronLeft, Trash } from "lucide-react";
 import Guest from "@/layouts/auth-layout";
-import { Link, router, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import AdminLayout from "@/layouts/admin-layout";
 import { PaginatedResponse, Product } from "@/types";
 import { DataTablePagination } from "@/components/datatable/datatable-pagination";
@@ -57,6 +57,8 @@ export default function Index() {
 
     return (
         <AdminLayout name="">
+            <Head title="المنتوجات" />
+
             <div className="container mx-auto  p-4 rounded-lg shadow-sm md:px-20">
                 <div className="flex items-center gap-4 mb-4">
                     <Link

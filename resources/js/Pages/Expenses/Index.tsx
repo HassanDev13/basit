@@ -28,7 +28,7 @@ import {
     View,
 } from "lucide-react";
 import Guest from "@/layouts/auth-layout";
-import { Link, router, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import AdminLayout from "@/layouts/admin-layout";
 import { PaginatedResponse, Expense } from "@/types";
 import { DataTablePagination } from "@/components/datatable/datatable-pagination";
@@ -78,6 +78,8 @@ export default function Index() {
     };
     return (
         <AdminLayout name="">
+            <Head title="المصروفات" />
+
             <div className="container mx-auto p-4 rounded-lg shadow-sm md:px-20">
                 <div className="flex items-center gap-4 mb-4">
                     <Link
@@ -109,9 +111,7 @@ export default function Index() {
                             <TableHead className="text-right">
                                 تاريخ المصروف
                             </TableHead>
-                            <TableHead className="text-right">
-                                الحالة
-                            </TableHead>
+                            <TableHead className="text-right">الحالة</TableHead>
                             <TableHead className="text-right">
                                 الإجراءات
                             </TableHead>

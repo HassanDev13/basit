@@ -32,7 +32,7 @@ export default function Welcome({
 
     return (
         <>
-            <Head title="Welcome" />
+            <Head title="الرئيسية" />
             <div className="p-4 md:p-6 lg:p-8 bg-gray-100 min-h-screen">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-center justify-between mb-10">
