@@ -246,10 +246,9 @@ export default function Create() {
                         تاريخ الشراء
                     </Label>
                     <Input
-                        dir="ltr"
+                        dir="rtl"
                         id="purchase_date"
                         type="date"
-                        
                         error={errors.purchase_date}
                         value={
                             data.purchase_date 
@@ -258,7 +257,7 @@ export default function Create() {
                         }
                         placeholder="تاريخ الشراء"
                         onChange={handleChange}
-                        className="direction-reverse text-left "
+                        className="  text-center"
                     />
                 </div>
             </div>
