@@ -1,6 +1,6 @@
-# 🚀 NAME OF THE PROJECT Setup Guide
+# 🚀 basit Setup Guide
 
-Welcome to the **NAME OF THE PROJECT** project! This guide will help you set up your development environment step by step. Get ready for a seamless experience with Laravel, Inertia.js, React, and Shadcn UI.
+Welcome to the **basit** project! This guide will help you set up your development environment step by step. Get ready for a seamless experience with Laravel, Inertia.js, React, and Shadcn UI.
 
 ## Prerequisites 📋
 
@@ -18,8 +18,8 @@ Follow these steps to get the project up and running:
 First, clone the repository and navigate into the project directory:
 
 ```bash
-git clone https://github.com/StackInTechDev/edu-platform.git
-cd edu-platform
+git@github.com:HassanDev13/basit.git
+cd basit
 ```
 
 ### 2. Configure Environment Variables 🔧
@@ -104,8 +104,14 @@ sail npm dev
 
 Your development environment is now up and running! Let's build something awesome together!.
 
+
 Happy coding! 💻✨
 
----
+## Contribution Guidelines
 
-Feel free to reach out if you encounter any issues or have any questions.
+Thank you for your interest in contributing to this project! At this stage, contributions are limited to fixing bugs or improving existing functionality.
+
+Please avoid adding new features unless the project has reached a stable version. If you have a feature idea, feel free to discuss it with me first by contacting me at:
+📧 zerrouk.mohammed.hacene@gmail.com
+
+I look forward to collaborating with you!
