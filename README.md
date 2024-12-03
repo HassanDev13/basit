@@ -1,5 +1,11 @@
 # 🚀 basit Setup Guide
 
+
+
+https://github.com/user-attachments/assets/afb3dfb4-d30b-4091-a07a-2fddef87b750
+
+
+
 Welcome to the **basit** project! This guide will help you set up your development environment step by step. Get ready for a seamless experience with Laravel, Inertia.js, React, and Shadcn UI.
 
 ## Prerequisites 📋
